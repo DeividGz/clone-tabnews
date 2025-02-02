@@ -1,0 +1,20 @@
+name: Automated Tests # Nome que identifica o fluxo
+
+on: pull_request # Qual evento o workflow vai estar observando
+
+jobs: # Trabalhos que serão executados quando o(s) evento(s) acontecerem
+  jest: # Nome dado a chave responsável pelo job nesse arquivo
+    name: Jest Ubuntu # Nome dado ao trabalho para localizá-lo na interface do GitHub
+    runs-on: ubuntu-latest # Especifíca o S.O. onde o job será executado
+    steps: # Passos a serem executados dentro desse runner (S.O.)
+      - uses: actions/checkout@v4 # Traz o código do pull request para o runner
+
+      - uses: actions/setup-node@v4 # Action para definir uma versão do Node
+        with: # Quero executar essa Action com determinada opção
+          node-version: "lts/hydrogen" # Opção que define a versão do Node
+
+      - run: npm ci # Executar um comando dentro do ambiente manualmente
+      # 'npm ci' instala de forma 'congelada' a árvore de dependências descrita
+      # no package-lock.json
+
+      - run: npm test # Executa o script que roda os testes automatizados
