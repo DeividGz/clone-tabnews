@@ -7,7 +7,7 @@ async function hash(password) {
 }
 
 function getNumberOfRounds() {
-  return process.env.NODE_ENV === "production" ? 14 : 1;
+  return process.env.VERCEL_ENV === "production" ? 14 : 1;
 }
 
 async function compare(providedPassword, storedPassword) {
