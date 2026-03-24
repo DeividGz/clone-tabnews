@@ -12,7 +12,7 @@ export default router.handler(controller.errorHandlers);
 async function getHandler(request, response) {
   const username = request.query.username;
   const userFound = await user.findOneByUsername(username);
-  response.status(200).json(userFound);
+  return response.status(200).json(userFound);
 }
 
 async function patchHandler(request, response) {
@@ -21,5 +21,5 @@ async function patchHandler(request, response) {
 
   const updatedUser = await user.update(username, userInputValues);
 
-  response.status(200).json(updatedUser);
+  return response.status(200).json(updatedUser);
 }

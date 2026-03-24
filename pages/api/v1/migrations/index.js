@@ -12,7 +12,7 @@ export default router.handler(controller.errorHandlers);
 async function getHandler(request, response) {
   const pendingMigrations = await migrator.listPendingMigrations();
 
-  response.status(200).json(pendingMigrations);
+  return response.status(200).json(pendingMigrations);
 }
 
 async function postHandler(request, response) {
@@ -22,5 +22,5 @@ async function postHandler(request, response) {
     return response.status(201).json(migratedMigrations);
   }
 
-  response.status(200).json(migratedMigrations);
+  return response.status(200).json(migratedMigrations);
 }
