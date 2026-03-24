@@ -13,5 +13,5 @@ async function postHandler(request, response) {
 
   const newUser = await user.create(userInputValues);
 
-  response.status(201).json(newUser);
+  return response.status(201).json(newUser);
 }

@@ -10,7 +10,7 @@ import {
 
 function onNoMatchHandler(request, response) {
   const publicErrorObject = new MethodNotAllowedError();
-  response.status(publicErrorObject.statusCode).json(publicErrorObject);
+  return response.status(publicErrorObject.statusCode).json(publicErrorObject);
 }
 
 function onErrorHandler(error, request, response) {
@@ -28,7 +28,7 @@ function onErrorHandler(error, request, response) {
 
   console.error(publicErrorObject);
 
-  response.status(publicErrorObject.statusCode).json(publicErrorObject);
+  return response.status(publicErrorObject.statusCode).json(publicErrorObject);
 }
 
 async function setSessionCookie(sessionToken, response) {
@@ -39,7 +39,18 @@ async function setSessionCookie(sessionToken, response) {
     httpOnly: true,
   });
 
-  response.setHeader("Set-Cookie", setCookie);
+  return response.setHeader("Set-Cookie", setCookie);
+}
+
+async function clearSessionCookie(response) {
+  const setCookie = cookie.serialize("session_id", "invalid", {
+    path: "/",
+    maxAge: -1,
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+  });
+
+  return response.setHeader("Set-Cookie", setCookie);
 }
 
 const controller = {
@@ -48,6 +59,7 @@ const controller = {
     onError: onErrorHandler,
   },
   setSessionCookie,
+  clearSessionCookie,
 };
 
 export default controller;
